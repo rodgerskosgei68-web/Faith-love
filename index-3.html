@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Marie ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #000;
+      color: white;
+      font-family: "Courier New", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, #ff1493, transparent 28%),
+        radial-gradient(circle at 80% 70%, #ff007f, transparent 28%),
+        radial-gradient(circle at 50% 50%, #4b0035, #000 72%);
+      opacity: .85;
+      z-index: -2;
+    }
+
+    .heart {
+      position: fixed;
+      color: #ff4da6;
+      font-size: 25px;
+      animation: float 7s linear infinite;
+      opacity: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      20% { opacity: .8; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+
+    .window {
+      width: min(90%, 500px);
+      min-height: 330px;
+      background: #050505;
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px #333, 0 0 30px #ff1493;
+      position: relative;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .top-bar {
+      height: 45px;
+      border-bottom: 3px solid white;
+      display: flex;
+      align-items: center;
+      padding-left: 15px;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border: 2px solid white;
+    }
+
+    h1 {
+      margin: 62px 18px 0;
+      font-size: clamp(19px, 5vw, 30px);
+      line-height: 1.5;
+    }
+
+    .name {
+      color: #ff4da6;
+      text-shadow: 0 0 15px #ff1493;
+    }
+
+    .buttons {
+      margin-top: 42px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    button {
+      background: #050505;
+      color: white;
+      border: 3px solid white;
+      padding: 14px 30px;
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    #yesBtn:hover {
+      background: white;
+      color: black;
+    }
+
+    #success {
+      display: none;
+      margin: 42px 15px 35px;
+      font-size: clamp(18px, 5vw, 23px);
+      color: #ff69b4;
+      text-shadow: 0 0 12px #ff1493;
+      animation: pop .5s ease;
+      line-height: 1.5;
+    }
+
+    @keyframes pop {
+      from { transform: scale(.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .small {
+      font-size: 14px;
+      color: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="window">
+    <div class="top-bar">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <h1 id="question">
+      <span class="name">Marie</span>,<br>
+      Do you want to be my girlfriend? ❤️
+    </h1>
+
+    <div class="buttons" id="buttons">
+      <button id="yesBtn">YES ❤️</button>
+      <button id="noBtn">NO 😭</button>
+    </div>
+
+    <div id="success">
+      YAAAAY! ❤️🥹<br><br>
+      I knew you'd choose YES! 💕<br><br>
+      <span class="small">You just made my heart very happy. ❤️</span>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const buttons = document.getElementById("buttons");
+    const question = document.getElementById("question");
+    const success = document.getElementById("success");
+
+    function moveNoButton() {
+      const margin = 15;
+      const width = noBtn.offsetWidth;
+      const height = noBtn.offsetHeight;
+
+      const maxX = Math.max(margin, window.innerWidth - width - margin);
+      const maxY = Math.max(margin, window.innerHeight - height - margin);
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = Math.floor(
+        margin + Math.random() * (maxX - margin)
+      ) + "px";
+      noBtn.style.top = Math.floor(
+        margin + Math.random() * (maxY - margin)
+      ) + "px";
+    }
+
+    // Desktop: run away when the cursor gets close.
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    // Phones/tablets: run away when she tries to touch it.
+    noBtn.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      moveNoButton();
+    }, { passive: false });
+
+    // Extra protection if she somehow manages to click it.
+    noBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesBtn.addEventListener("click", function() {
+      question.style.display = "none";
+      buttons.style.display = "none";
+      success.style.display = "block";
+
+      // Celebration hearts
+      for (let i = 0; i < 35; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = Math.random() > .5 ? "❤️" : "♥";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (18 + Math.random() * 22) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+        heart.style.animationDelay = Math.random() * 2 + "s";
+        document.body.appendChild(heart);
+      }
+    });
+
+    // Background hearts
+    for (let i = 0; i < 15; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = Math.random() > .5 ? "♥" : "♡";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (15 + Math.random() * 25) + "px";
+      heart.style.animationDuration = (5 + Math.random() * 6) + "s";
+      heart.style.animationDelay = Math.random() * 7 + "s";
+      document.body.appendChild(heart);
+    }
+  </script>
+</body>
+</html>
