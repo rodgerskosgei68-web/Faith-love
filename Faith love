@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Faith ❤️</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            font-family: "Courier New", monospace;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Pink glowing background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, #ff1493, transparent 25%),
+                radial-gradient(circle at 80% 70%, #ff007f, transparent 25%),
+                radial-gradient(circle at 50% 50%, #4b0035, #000 70%);
+            opacity: 0.8;
+            z-index: -2;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: absolute;
+            color: #ff4da6;
+            font-size: 25px;
+            animation: float 7s linear infinite;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            to {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main window */
+        .window {
+            width: min(90%, 500px);
+            min-height: 330px;
+            background: #050505;
+            border: 3px solid white;
+            box-shadow:
+                0 0 0 3px #333,
+                0 0 30px #ff1493;
+            position: relative;
+            text-align: center;
+        }
+
+        .top-bar {
+            height: 45px;
+            border-bottom: 3px solid white;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border: 2px solid white;
+        }
+
+        h1 {
+            margin-top: 65px;
+            font-size: clamp(20px, 5vw, 30px);
+            line-height: 1.5;
+        }
+
+        .name {
+            color: #ff4da6;
+            text-shadow: 0 0 15px #ff1493;
+        }
+
+        .buttons {
+            margin-top: 45px;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+        }
+
+        button {
+            background: #050505;
+            color: white;
+            border: 3px solid white;
+            padding: 15px 35px;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: white;
+            color: black;
+        }
+
+        #noBtn {
+            position: relative;
+        }
+
+        /* Success message */
+        #success {
+            display: none;
+            margin-top: 35px;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating hearts -->
+    <div class="heart" style="left:5%; animation-delay:0s;">♥</div>
+    <div class="heart" style="left:20%; animation-delay:2s;">♡</div>
+    <div class="heart" style="left:40%; animation-delay:4s;">♥</div>
+    <div class="heart" style="left:60%; animation-delay:1s;">♡</div>
+    <div class="heart" style="left:80%; animation-delay:3s;">♥</div>
+    <div class="heart" style="left:95%; animation-delay:5s;">♡</div>
+
+    <div class="window">
+
+        <div class="top-bar">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <h1>
+            <span class="name">Faith</span>,<br>
+            Do you want to be my girlfriend? ❤️
+        </h1>
+
+        <div class="buttons">
+            <button id="yesBtn">YES ❤️</button>
+            <button id="noBtn">NO 😭</button>
+        </div>
+
+        <div id="success">
+            YAAAAY! ❤️🥹<br><br>
+            I knew you'd choose YES! 💕
+        </div>
+
+    </div>
+
+    <script>
+
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const success = document.getElementById("success");
+
+        function moveNoButton() {
+
+            const buttonWidth = noBtn.offsetWidth;
+            const buttonHeight = noBtn.offsetHeight;
+
+            // Keep the button inside the screen
+            const maxX = window.innerWidth - buttonWidth - 20;
+            const maxY = window.innerHeight - buttonHeight - 20;
+
+            const randomX = Math.max(
+                10,
+                Math.random() * maxX
+            );
+
+            const randomY = Math.max(
+                10,
+                Math.random() * maxY
+            );
+
+            noBtn.style.position = "fixed";
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+        }
+
+        // Computer
+        noBtn.addEventListener("mouseenter", moveNoButton);
+
+        // Phone/tablet
+        noBtn.addEventListener("touchstart", function(event) {
+            event.preventDefault();
+            moveNoButton();
+        });
+
+        // Also move when clicked
+        noBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            moveNoButton();
+        });
+
+        // YES button
+        yesBtn.addEventListener("click", function() {
+
+            document.querySelector("h1").style.display = "none";
+            document.querySelector(".buttons").style.display = "none";
+
+            success.style.display = "block";
+
+            // Create extra hearts
+            for (let i = 0; i < 25; i++) {
+
+                const heart = document.createElement("div");
+
+                heart.className = "heart";
+                heart.innerHTML = "❤️";
+
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.animationDuration =
+                    (3 + Math.random() * 5) + "s";
+
+                document.body.appendChild(heart);
+            }
+        });
+
+    </script>
+
+</body>
+</html>
