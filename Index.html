@@ -26,7 +26,6 @@ body{
 }
 
 /* MAIN CARD */
-
 .auth-card{
     position:relative;
     width:900px;
@@ -41,7 +40,6 @@ body{
 }
 
 /* LOGIN / SIGNUP CONTENT */
-
 .panel{
     position:absolute;
     top:0;
@@ -67,7 +65,6 @@ body{
 }
 
 /* TITLES */
-
 .logo{
     font-size:15px;
     font-weight:bold;
@@ -88,7 +85,6 @@ h1{
 }
 
 /* INPUTS */
-
 .input{
     width:100%;
     padding:15px 17px;
@@ -106,7 +102,6 @@ h1{
 }
 
 /* BUTTON */
-
 .btn{
     width:100%;
     padding:15px;
@@ -132,7 +127,6 @@ h1{
 }
 
 /* CHECKBOX */
-
 .remember{
     display:flex;
     align-items:center;
@@ -143,7 +137,6 @@ h1{
 }
 
 /* DIVIDER */
-
 .divider{
     display:flex;
     align-items:center;
@@ -162,7 +155,6 @@ h1{
 }
 
 /* SOCIAL */
-
 .social{
     display:flex;
     gap:10px;
@@ -178,7 +170,6 @@ h1{
 }
 
 /* CENTER OVERLAY */
-
 .overlay{
     position:absolute;
     top:0;
@@ -213,7 +204,6 @@ h1{
 }
 
 /* DECORATIVE BLOBS */
-
 .blob{
     position:absolute;
     border-radius:50%;
@@ -244,7 +234,6 @@ h1{
 }
 
 /* OVERLAY TEXT */
-
 .overlay-content{
     position:relative;
     z-index:3;
@@ -273,7 +262,6 @@ h1{
 }
 
 /* SIGNUP MODE */
-
 .auth-card.show-signup .overlay{
     transform:translateX(-100%);
 }
@@ -287,23 +275,39 @@ h1{
 }
 
 /* 3D FEEL */
-
 .auth-card.show-signup .overlay-inner{
     transform:rotateY(0deg);
 }
 
-/* MOBILE */
+
+/* =========================================
+   MOBILE FIX
+   ========================================= */
 
 @media(max-width:700px){
 
+    body{
+        min-height:100svh;
+        padding:20px 0;
+        overflow:auto;
+        align-items:center;
+    }
+
     .auth-card{
-        height:620px;
-        max-width:92%;
+        width:92%;
+        max-width:430px;
+        height:760px;
+        min-height:760px;
+        border-radius:22px;
+        overflow:hidden;
     }
 
     .panel{
         width:100%;
-        padding:35px;
+        height:100%;
+        padding:300px 35px 35px;
+        justify-content:flex-start;
+        overflow:hidden;
     }
 
     .login{
@@ -314,23 +318,67 @@ h1{
         right:-100%;
     }
 
+    /* Blue panel stays at the top */
     .overlay{
         width:100%;
         left:0;
         top:0;
-        height:45%;
+        height:260px;
+        z-index:10;
     }
 
-    .login{
-        padding-top:270px;
+    .overlay-inner{
+        padding:30px;
     }
 
-    .signup{
-        padding-top:270px;
+    .overlay-content h2{
+        font-size:28px;
+        margin-bottom:10px;
     }
 
+    .overlay-content p{
+        font-size:13px;
+        margin-bottom:18px;
+    }
+
+    .switch-btn{
+        padding:11px 24px;
+    }
+
+    /* Login content starts BELOW overlay */
+    .login .logo,
+    .signup .logo{
+        margin-bottom:25px;
+    }
+
+    h1{
+        font-size:32px;
+        margin-bottom:9px;
+    }
+
+    .subtitle{
+        margin-bottom:22px;
+    }
+
+    .input{
+        padding:14px 16px;
+        margin-bottom:13px;
+    }
+
+    .btn{
+        padding:14px;
+    }
+
+    .divider{
+        margin:16px 0;
+    }
+
+    /*
+       Signup animation on mobile:
+       overlay moves down after switching.
+    */
     .auth-card.show-signup .overlay{
-        transform:translateY(122%);
+        transform:translateY(192%);
     }
 
     .auth-card.show-signup .login{
@@ -340,25 +388,60 @@ h1{
     .auth-card.show-signup .signup{
         transform:translateX(-100%);
     }
+}
+
+
+/* SMALL PHONES */
+@media(max-width:380px){
+
+    .auth-card{
+        width:94%;
+        height:720px;
+        min-height:720px;
+    }
+
+    .panel{
+        padding:285px 25px 25px;
+    }
+
+    .overlay{
+        height:245px;
+    }
 
     .overlay-content h2{
+        font-size:25px;
+    }
+
+    .overlay-content p{
+        font-size:12px;
+    }
+
+    h1{
         font-size:28px;
+    }
+
+    .logo{
+        font-size:14px;
     }
 }
 </style>
 </head>
+
 
 <body>
 
 <div class="auth-card" id="authCard">
 
     <!-- LOGIN -->
-
     <div class="panel login">
 
-        <div class="logo">✦ CODE CANDY</div>
+        <div class="logo">
+            ✦ CODE CANDY
+        </div>
 
-        <h1>Welcome back</h1>
+        <h1>
+            Welcome back
+        </h1>
 
         <p class="subtitle">
             Sign in to continue to your account
@@ -396,12 +479,15 @@ h1{
 
 
     <!-- SIGNUP -->
-
     <div class="panel signup">
 
-        <div class="logo">✦ CODE CANDY</div>
+        <div class="logo">
+            ✦ CODE CANDY
+        </div>
 
-        <h1>Create account</h1>
+        <h1>
+            Create account
+        </h1>
 
         <p class="subtitle">
             Join us and create your account
@@ -439,7 +525,6 @@ h1{
 
 
     <!-- ANIMATED OVERLAY -->
-
     <div class="overlay">
 
         <div class="overlay-inner">
@@ -488,37 +573,38 @@ const title =
 const text =
     document.getElementById("overlayText");
 
-let signup=false;
+let signup = false;
 
 switchBtn.addEventListener("click",()=>{
 
-    signup=!signup;
+    signup = !signup;
 
     if(signup){
 
         card.classList.add("show-signup");
 
-        title.textContent=
+        title.textContent =
             "Already have an account?";
 
-        text.textContent=
+        text.textContent =
             "Welcome back. Sign in and continue your journey.";
 
-        switchBtn.textContent=
+        switchBtn.textContent =
             "Sign In";
 
     }else{
 
         card.classList.remove("show-signup");
 
-        title.textContent=
+        title.textContent =
             "New here?";
 
-        text.textContent=
+        text.textContent =
             "Create your account and discover something amazing.";
 
-        switchBtn.textContent=
+        switchBtn.textContent =
             "Create Account";
+
     }
 
 });
