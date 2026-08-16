@@ -1,41 +1,529 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Happy Birthday Koechi ❤️</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Signup Animation</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;overflow-x:hidden;font-family:system-ui,Arial,sans-serif;
-background:radial-gradient(circle at 50% 25%,#5b174f 0,#190617 45%,#070107 100%);color:#fff;text-align:center}
-.card{width:min(92vw,520px);margin:6vh auto;padding:28px 18px 34px;border:1px solid #ffffff25;border-radius:30px;
-background:#ffffff0d;backdrop-filter:blur(10px);box-shadow:0 20px 70px #0008;position:relative;z-index:2}
-.heart{font-size:82px;animation:beat 1s infinite alternate}.title{font-size:clamp(34px,9vw,58px);margin:5px 0}
-.msg{font-size:18px;line-height:1.6;opacity:.95}.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0}
-.photo{height:180px;border-radius:20px;overflow:hidden;background:#ffffff12;border:1px solid #fff2}
-.photo img{width:100%;height:100%;object-fit:cover}.photo span{display:grid;place-items:center;height:100%;opacity:.55}
-button{border:0;border-radius:999px;padding:13px 22px;font-size:16px;font-weight:700;cursor:pointer}
-#musicBtn{background:#fff;color:#3b1237}.hint{font-size:12px;opacity:.55;margin-top:14px}
-.float{position:fixed;inset:0;pointer-events:none;overflow:hidden}.float i{position:absolute;bottom:-30px;animation:rise linear forwards}
-@keyframes beat{to{transform:scale(1.13)}}@keyframes rise{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
-</style></head>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        radial-gradient(circle at 20% 20%,#302080,transparent 35%),
+        radial-gradient(circle at 80% 80%,#151a55,transparent 35%),
+        #08091c;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+}
+
+/* MAIN CARD */
+
+.auth-card{
+    position:relative;
+    width:900px;
+    max-width:94%;
+    height:540px;
+    background:#fff;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.45);
+    perspective:1500px;
+}
+
+/* LOGIN / SIGNUP CONTENT */
+
+.panel{
+    position:absolute;
+    top:0;
+    width:50%;
+    height:100%;
+    padding:55px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    transition:
+        transform .9s cubic-bezier(.77,0,.18,1),
+        opacity .5s;
+}
+
+.login{
+    left:0;
+    background:#fff;
+}
+
+.signup{
+    right:0;
+    background:#fff;
+}
+
+/* TITLES */
+
+.logo{
+    font-size:15px;
+    font-weight:bold;
+    color:#5735dc;
+    margin-bottom:45px;
+}
+
+h1{
+    color:#16162a;
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#777;
+    font-size:14px;
+    margin-bottom:28px;
+}
+
+/* INPUTS */
+
+.input{
+    width:100%;
+    padding:15px 17px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.input:focus{
+    border-color:#5935e5;
+    box-shadow:0 0 0 3px rgba(89,53,229,.1);
+}
+
+/* BUTTON */
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(
+        90deg,
+        #5632df,
+        #7146ed
+    );
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:8px;
+    box-shadow:
+        0 10px 25px rgba(88,50,220,.25);
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* CHECKBOX */
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#777;
+    font-size:12px;
+    margin:4px 0 15px;
+}
+
+/* DIVIDER */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#aaa;
+    font-size:12px;
+    margin:20px 0;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#eee;
+}
+
+/* SOCIAL */
+
+.social{
+    display:flex;
+    gap:10px;
+}
+
+.social button{
+    flex:1;
+    padding:11px;
+    border:1px solid #ddd;
+    background:#fff;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* CENTER OVERLAY */
+
+.overlay{
+    position:absolute;
+    top:0;
+    left:50%;
+    width:50%;
+    height:100%;
+    z-index:10;
+    overflow:hidden;
+    transform-style:preserve-3d;
+    transition:
+        transform .9s cubic-bezier(.77,0,.18,1);
+}
+
+.overlay-inner{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:50px;
+    background:
+        linear-gradient(
+            145deg,
+            #5933df,
+            #3d50df,
+            #5740ee
+        );
+    color:white;
+    position:relative;
+    overflow:hidden;
+}
+
+/* DECORATIVE BLOBS */
+
+.blob{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.09);
+    filter:blur(2px);
+}
+
+.blob.one{
+    width:300px;
+    height:300px;
+    top:-120px;
+    right:-100px;
+}
+
+.blob.two{
+    width:250px;
+    height:250px;
+    bottom:-100px;
+    left:-100px;
+}
+
+.blob.three{
+    width:100px;
+    height:100px;
+    top:45%;
+    right:20%;
+    background:rgba(255,255,255,.06);
+}
+
+/* OVERLAY TEXT */
+
+.overlay-content{
+    position:relative;
+    z-index:3;
+}
+
+.overlay-content h2{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.overlay-content p{
+    color:rgba(255,255,255,.8);
+    font-size:14px;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+.switch-btn{
+    padding:13px 28px;
+    border:1px solid rgba(255,255,255,.6);
+    background:transparent;
+    color:white;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* SIGNUP MODE */
+
+.auth-card.show-signup .overlay{
+    transform:translateX(-100%);
+}
+
+.auth-card.show-signup .login{
+    transform:translateX(100%);
+}
+
+.auth-card.show-signup .signup{
+    transform:translateX(-100%);
+}
+
+/* 3D FEEL */
+
+.auth-card.show-signup .overlay-inner{
+    transform:rotateY(0deg);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .auth-card{
+        height:620px;
+        max-width:92%;
+    }
+
+    .panel{
+        width:100%;
+        padding:35px;
+    }
+
+    .login{
+        left:0;
+    }
+
+    .signup{
+        right:-100%;
+    }
+
+    .overlay{
+        width:100%;
+        left:0;
+        top:0;
+        height:45%;
+    }
+
+    .login{
+        padding-top:270px;
+    }
+
+    .signup{
+        padding-top:270px;
+    }
+
+    .auth-card.show-signup .overlay{
+        transform:translateY(122%);
+    }
+
+    .auth-card.show-signup .login{
+        transform:translateY(-100%);
+    }
+
+    .auth-card.show-signup .signup{
+        transform:translateX(-100%);
+    }
+
+    .overlay-content h2{
+        font-size:28px;
+    }
+}
+</style>
+</head>
+
 <body>
-<div class="float" id="float"></div>
-<main class="card">
-<div class="heart">❤️</div>
-<h1 class="title">Happy Birthday,  Inlaw koechi!</h1><strong></strong>
-<p class="msg">🎂 Happy Birthday! May your day be filled with happiness, beautiful memories, laughter and all the little things that make you smile .  May every smile count in for you and may you
-  live to blow as many candels as possible happy birthday koechi✨<br><br>
-This surprise was made especially for you. May you enjoy ur day❤️</p>
-<section class="photos">
-<div class="photo"><img src="photos/photo1.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span>📸 Add photo 1</span></div>
-<div class="photo"><img src="photos/photo2.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span>📸 Add photo 2</span></div>
-<div class="photo"><img src="photos/photo3.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span>📸 Add photo 3</span></div>
-<div class="photo"><img src="photos/photo4.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span>📸 Add photo 4</span></div>
-</section>
-<audio id="music" src="music/birthday.mp3" loop></audio>
-<button id="musicBtn">🎵 Play birthday music>Happy birth day<aside</button>
-<div class="hint">Add your photos to the photos folder and your song as music/birthday.mp3</div>
-</main>
+
+<div class="auth-card" id="authCard">
+
+    <!-- LOGIN -->
+
+    <div class="panel login">
+
+        <div class="logo">✦ CODE CANDY</div>
+
+        <h1>Welcome back</h1>
+
+        <p class="subtitle">
+            Sign in to continue to your account
+        </p>
+
+        <input
+            class="input"
+            type="email"
+            placeholder="Email address">
+
+        <input
+            class="input"
+            type="password"
+            placeholder="Password">
+
+        <label class="remember">
+            <input type="checkbox">
+            Remember me
+        </label>
+
+        <button class="btn">
+            Sign In
+        </button>
+
+        <div class="divider">
+            OR
+        </div>
+
+        <div class="social">
+            <button>Google</button>
+            <button>Apple</button>
+        </div>
+
+    </div>
+
+
+    <!-- SIGNUP -->
+
+    <div class="panel signup">
+
+        <div class="logo">✦ CODE CANDY</div>
+
+        <h1>Create account</h1>
+
+        <p class="subtitle">
+            Join us and create your account
+        </p>
+
+        <input
+            class="input"
+            type="text"
+            placeholder="Full name">
+
+        <input
+            class="input"
+            type="email"
+            placeholder="Email address">
+
+        <input
+            class="input"
+            type="password"
+            placeholder="Create password">
+
+        <button class="btn">
+            Create Account
+        </button>
+
+        <div class="divider">
+            OR
+        </div>
+
+        <div class="social">
+            <button>Google</button>
+            <button>Apple</button>
+        </div>
+
+    </div>
+
+
+    <!-- ANIMATED OVERLAY -->
+
+    <div class="overlay">
+
+        <div class="overlay-inner">
+
+            <div class="blob one"></div>
+            <div class="blob two"></div>
+            <div class="blob three"></div>
+
+            <div class="overlay-content">
+
+                <h2 id="overlayTitle">
+                    New here?
+                </h2>
+
+                <p id="overlayText">
+                    Create your account and
+                    discover something amazing.
+                </p>
+
+                <button
+                    class="switch-btn"
+                    id="switchBtn">
+                    Create Account
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
-const music=document.getElementById('music'), btn=document.getElementById('musicBtn');
-btn.onclick=()=>{if(music.paused){music.play();btn.textContent='⏸ Pause birthday music'}else{music.pause();btn.textContent='🎵 Play birthday music'}};
-for(let n=0;n<45;n++){const e=document.createElement('i');e.textContent=['❤️','💗','💖','✨','🎈'][n%5];
-e.style.left=Math.random()*100+'%';e.style.fontSize=12+Math.random()*22+'px';e.style.animationDuration=5+Math.random()*6+'s';e.style.animationDelay=Math.random()*6+'s';document.getElementById('float').appendChild(e)}
-</script></body></html>
+
+const card =
+    document.getElementById("authCard");
+
+const switchBtn =
+    document.getElementById("switchBtn");
+
+const title =
+    document.getElementById("overlayTitle");
+
+const text =
+    document.getElementById("overlayText");
+
+let signup=false;
+
+switchBtn.addEventListener("click",()=>{
+
+    signup=!signup;
+
+    if(signup){
+
+        card.classList.add("show-signup");
+
+        title.textContent=
+            "Already have an account?";
+
+        text.textContent=
+            "Welcome back. Sign in and continue your journey.";
+
+        switchBtn.textContent=
+            "Sign In";
+
+    }else{
+
+        card.classList.remove("show-signup");
+
+        title.textContent=
+            "New here?";
+
+        text.textContent=
+            "Create your account and discover something amazing.";
+
+        switchBtn.textContent=
+            "Create Account";
+    }
+
+});
+
+</script>
+
+</body>
+</html>
