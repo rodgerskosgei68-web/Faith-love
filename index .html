@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { margin:0; background:#000; overflow:hidden; }
+.title { 
+  position:absolute; top:10%; width:100%; text-align:center; 
+  color:#fff; font-size:2.5em; text-shadow:0 0 20px #ff1493; z-index:2;
+}
+.msg {
+  position:absolute; color:#ff99cc; font-size:16px; font-weight:bold;
+  animation:up 8s linear infinite; text-shadow:0 0 8px #ff1493;
+}
+@keyframes up {
+  from { bottom:-50px; opacity:0; }
+ 10% { opacity:1; }
+  90% { opacity:1; }
+  to { bottom:110vh; opacity:0; }
+}
+</style>
+</head>
+<body>
+<div class="title">To Faith ❤️❤️‍🩹💘</div>
+<canvas id="c"></canvas>
 
+<script>
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+c.width = innerWidth; c.height = innerHeight;
+
+let t = 0;
+function draw() {
+  ctx.clearRect(0,0,c.width,c.height);
+  for(let i=0; i<500; i++){
+    let a = i*0.1;
+    let x = 16*Math.pow(Math.sin(a),3);
+    let y = 13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a);
+    ctx.fillStyle = `hsl(${330+Math.random()*30},100%,60%)`;
+    ctx.beginPath();
+    ctx.arc(c.width/2 + x*15, c.height/2 - y*15 + Math.sin(t+i)*5, 2, 0, 7);
+    ctx.fill();
+  }
+  t += 0.05;
+  requestAnimationFrame(draw);
+}
+draw();
+
+// Floating messages
+const texts = [
+  "To Faith ❤️❤️‍🩹💘",
+  "I love you Faith 💗🫂", 
+  "Missing this soul 🤧🫂",
+  "I really love you 😍🥰"
+];
+setInterval(()=>{
+  let d = document.createElement('div');
+  d.className = 'msg';
+  d.textContent = texts[Math.floor(Math.random()*texts.length)];
+  d.style.left = Math.random()*80 + 10 + '%';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(), 8000);
+}, 700);
+</script>
+</body>
+</html>
