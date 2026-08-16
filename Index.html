@@ -3,611 +3,793 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login / Signup Animation</title>
+<title>For Koechi 💜</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:
-        radial-gradient(circle at 20% 20%,#302080,transparent 35%),
-        radial-gradient(circle at 80% 80%,#151a55,transparent 35%),
-        #08091c;
-    font-family:Arial,sans-serif;
-    overflow:hidden;
+  min-height:100vh;
+  color:#fff;
+  background:
+    radial-gradient(circle at 20% 20%,#7040ed,transparent 28%),
+    radial-gradient(circle at 80% 80%,#3154df,transparent 30%),
+    linear-gradient(135deg,#08051c,#12194c 55%,#07091c);
+  overflow-x:hidden;
 }
 
-/* MAIN CARD */
-.auth-card{
-    position:relative;
-    width:900px;
-    max-width:94%;
-    height:540px;
-    background:#fff;
-    border-radius:22px;
-    overflow:hidden;
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.45);
-    perspective:1500px;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px);
+  background-size:55px 55px;
+  opacity:.16;
+  animation:stars 18s linear infinite;
 }
 
-/* LOGIN / SIGNUP CONTENT */
-.panel{
-    position:absolute;
-    top:0;
-    width:50%;
-    height:100%;
-    padding:55px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    transition:
-        transform .9s cubic-bezier(.77,0,.18,1),
-        opacity .5s;
+@keyframes stars{
+  from{transform:translateY(0)}
+  to{transform:translateY(-55px)}
 }
 
-.login{
-    left:0;
-    background:#fff;
+button,input{font:inherit}
+button{cursor:pointer}
+
+.page{
+  min-height:100vh;
+  width:100%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px 16px;
+  position:relative;
+  z-index:2;
 }
 
-.signup{
-    right:0;
-    background:#fff;
+.page.active{
+  display:flex;
+  animation:pageIn .65s ease both;
 }
 
-/* TITLES */
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(25px) scale(.98)}
+  to{opacity:1;transform:none}
+}
+
+.card{
+  width:min(920px,100%);
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.09);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:28px;
+  box-shadow:0 30px 90px rgba(0,0,0,.42);
+}
+
+/* LOGIN */
+.login-card{
+  min-height:560px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+}
+
+.login-form{
+  background:rgba(255,255,255,.97);
+  color:#17152a;
+  padding:55px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
 .logo{
-    font-size:15px;
-    font-weight:bold;
-    color:#5735dc;
-    margin-bottom:45px;
+  color:#6840df;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:38px;
 }
 
-h1{
-    color:#16162a;
-    font-size:36px;
-    margin-bottom:10px;
+.login-form h1{
+  font-size:42px;
+  margin-bottom:10px;
 }
 
-.subtitle{
-    color:#777;
-    font-size:14px;
-    margin-bottom:28px;
+.sub{
+  color:#777;
+  margin-bottom:28px;
+  font-size:14px;
 }
 
-/* INPUTS */
-.input{
-    width:100%;
-    padding:15px 17px;
-    margin-bottom:15px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
-    font-size:14px;
-    transition:.3s;
+.field{
+  width:100%;
+  border:1px solid #ddd;
+  padding:15px;
+  border-radius:11px;
+  margin-bottom:14px;
+  outline:none;
 }
 
-.input:focus{
-    border-color:#5935e5;
-    box-shadow:0 0 0 3px rgba(89,53,229,.1);
+.field:focus{
+  border-color:#6740df;
+  box-shadow:0 0 0 4px rgba(103,64,223,.1);
 }
 
-/* BUTTON */
-.btn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(
-        90deg,
-        #5632df,
-        #7146ed
-    );
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:8px;
-    box-shadow:
-        0 10px 25px rgba(88,50,220,.25);
-    transition:.3s;
+.login-btn,.next-btn{
+  border:0;
+  color:#fff;
+  padding:15px 23px;
+  border-radius:12px;
+  font-weight:700;
+  background:linear-gradient(100deg,#6234dd,#376ee8);
+  box-shadow:0 12px 28px rgba(76,53,210,.3);
+  transition:.25s;
 }
 
-.btn:hover{
-    transform:translateY(-2px);
+.login-btn:hover,.next-btn:hover{
+  transform:translateY(-2px);
 }
 
-/* CHECKBOX */
-.remember{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:#777;
-    font-size:12px;
-    margin:4px 0 15px;
+.login-message{
+  min-height:20px;
+  color:#d33;
+  font-size:12px;
+  margin-top:10px;
 }
 
-/* DIVIDER */
-.divider{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#aaa;
-    font-size:12px;
-    margin:20px 0;
+/* LOGIN ART */
+.login-art{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+  overflow:hidden;
+  background:
+    linear-gradient(145deg,#5932d8,#3c58df,#5b42e9);
 }
 
-.divider::before,
-.divider::after{
-    content:"";
-    flex:1;
-    height:1px;
-    background:#eee;
+.login-art:before,
+.login-art:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
 }
 
-/* SOCIAL */
-.social{
-    display:flex;
-    gap:10px;
+.login-art:before{
+  width:330px;
+  height:330px;
+  top:-130px;
+  right:-100px;
 }
 
-.social button{
-    flex:1;
-    padding:11px;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:8px;
-    cursor:pointer;
+.login-art:after{
+  width:250px;
+  height:250px;
+  bottom:-120px;
+  left:-90px;
 }
 
-/* CENTER OVERLAY */
-.overlay{
-    position:absolute;
-    top:0;
-    left:50%;
-    width:50%;
-    height:100%;
-    z-index:10;
-    overflow:hidden;
-    transform-style:preserve-3d;
-    transition:
-        transform .9s cubic-bezier(.77,0,.18,1);
+.art-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
 }
 
-.overlay-inner{
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:50px;
-    background:
-        linear-gradient(
-            145deg,
-            #5933df,
-            #3d50df,
-            #5740ee
-        );
-    color:white;
-    position:relative;
-    overflow:hidden;
+.art-heart{
+  font-size:92px;
+  animation:heartBeat 1.8s infinite;
+  filter:drop-shadow(0 15px 25px rgba(0,0,0,.2));
 }
 
-/* DECORATIVE BLOBS */
-.blob{
-    position:absolute;
-    border-radius:50%;
-    background:rgba(255,255,255,.09);
-    filter:blur(2px);
+@keyframes heartBeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
 }
 
-.blob.one{
-    width:300px;
-    height:300px;
-    top:-120px;
-    right:-100px;
+.art-content h2{
+  font-size:36px;
+  margin:15px 0 10px;
 }
 
-.blob.two{
-    width:250px;
-    height:250px;
-    bottom:-100px;
-    left:-100px;
+.art-content p{
+  line-height:1.7;
+  color:rgba(255,255,255,.82);
 }
 
-.blob.three{
-    width:100px;
-    height:100px;
-    top:45%;
-    right:20%;
-    background:rgba(255,255,255,.06);
+/* GENERAL */
+.content-card{
+  text-align:center;
+  padding:55px;
+  max-width:900px;
 }
 
-/* OVERLAY TEXT */
-.overlay-content{
-    position:relative;
-    z-index:3;
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:3px;
+  font-size:11px;
+  color:#b9a8ff;
+  margin-bottom:15px;
 }
 
-.overlay-content h2{
-    font-size:38px;
-    margin-bottom:15px;
+.content-card h1{
+  font-size:clamp(40px,7vw,70px);
+  line-height:1.05;
+  margin-bottom:18px;
 }
 
-.overlay-content p{
-    color:rgba(255,255,255,.8);
-    font-size:14px;
-    line-height:1.6;
-    margin-bottom:25px;
+.content-card p{
+  max-width:680px;
+  margin:0 auto 28px;
+  color:rgba(255,255,255,.78);
+  line-height:1.8;
 }
 
-.switch-btn{
-    padding:13px 28px;
-    border:1px solid rgba(255,255,255,.6);
-    background:transparent;
-    color:white;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:bold;
+.glow{
+  text-shadow:0 0 30px rgba(177,146,255,.55);
 }
 
-/* SIGNUP MODE */
-.auth-card.show-signup .overlay{
-    transform:translateX(-100%);
+/* WELCOME */
+.welcome-orb{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  margin:0 auto 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
+  background:radial-gradient(circle,#a98cff,#5836db 65%,#2b46c8);
+  box-shadow:
+    0 0 35px rgba(128,94,255,.7),
+    0 0 100px rgba(69,82,230,.35);
+  animation:float 3.5s ease-in-out infinite;
 }
 
-.auth-card.show-signup .login{
-    transform:translateX(100%);
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
 }
 
-.auth-card.show-signup .signup{
-    transform:translateX(-100%);
+/* MESSAGE */
+.message-box{
+  max-width:700px;
+  margin:25px auto;
+  padding:30px;
+  border-radius:20px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
 }
 
-/* 3D FEEL */
-.auth-card.show-signup .overlay-inner{
-    transform:rotateY(0deg);
+.message-box p{
+  margin:0;
+  font-size:18px;
+  line-height:2;
+  color:#fff;
 }
 
+/* PHOTOS */
+.photos-card{
+  width:min(1050px,100%);
+  padding:40px;
+}
 
-/* =========================================
-   MOBILE FIX
-   ========================================= */
+.photos-title{
+  text-align:center;
+  margin-bottom:28px;
+}
 
+.photos-title h1{
+  font-size:clamp(35px,6vw,58px);
+  margin-bottom:10px;
+}
+
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.photo{
+  aspect-ratio:1/1;
+  overflow:hidden;
+  border-radius:18px;
+  background:linear-gradient(135deg,#6541dc,#3265dd);
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.45s;
+}
+
+.photo:hover img{
+  transform:scale(1.08);
+}
+
+/* FINAL */
+.final-card{
+  overflow:hidden;
+  text-align:center;
+  padding:65px 35px;
+  position:relative;
+}
+
+.final-heart{
+  font-size:105px;
+  margin-bottom:20px;
+  animation:heartBeat 1.6s infinite;
+  filter:drop-shadow(0 0 30px rgba(255,100,190,.55));
+}
+
+.final-card h1{
+  font-size:clamp(42px,8vw,78px);
+  margin-bottom:20px;
+}
+
+.final-card p{
+  max-width:650px;
+  margin:0 auto 30px;
+  color:rgba(255,255,255,.78);
+  line-height:1.8;
+}
+
+.sparkle{
+  position:absolute;
+  font-size:20px;
+  opacity:.7;
+  animation:float 3s infinite;
+}
+
+.s1{top:12%;left:12%}
+.s2{top:20%;right:15%;animation-delay:.6s}
+.s3{bottom:15%;left:20%;animation-delay:1s}
+.s4{bottom:18%;right:12%;animation-delay:1.5s}
+
+.nav-buttons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.back-btn{
+  padding:14px 22px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:12px;
+  color:#fff;
+  background:rgba(255,255,255,.08);
+}
+
+/* MOBILE FIX */
 @media(max-width:700px){
 
-    body{
-        min-height:100svh;
-        padding:20px 0;
-        overflow:auto;
-        align-items:center;
-    }
+  body{
+    overflow-x:hidden;
+  }
 
-    .auth-card{
-        width:92%;
-        max-width:430px;
-        height:760px;
-        min-height:760px;
-        border-radius:22px;
-        overflow:hidden;
-    }
+  .page{
+    min-height:100svh;
+    padding:15px 12px;
+    align-items:center;
+  }
 
-    .panel{
-        width:100%;
-        height:100%;
-        padding:300px 35px 35px;
-        justify-content:flex-start;
-        overflow:hidden;
-    }
+  .login-card{
+    width:100%;
+    min-height:auto;
+    display:flex;
+    flex-direction:column;
+  }
 
-    .login{
-        left:0;
-    }
+  .login-art{
+    order:1;
+    min-height:225px;
+    padding:28px 20px;
+  }
 
-    .signup{
-        right:-100%;
-    }
+  .login-form{
+    order:2;
+    padding:32px 24px 35px;
+  }
 
-    /* Blue panel stays at the top */
-    .overlay{
-        width:100%;
-        left:0;
-        top:0;
-        height:260px;
-        z-index:10;
-    }
+  .login-form h1{
+    font-size:34px;
+  }
 
-    .overlay-inner{
-        padding:30px;
-    }
+  .logo{
+    margin-bottom:24px;
+  }
 
-    .overlay-content h2{
-        font-size:28px;
-        margin-bottom:10px;
-    }
+  .art-heart{
+    font-size:62px;
+  }
 
-    .overlay-content p{
-        font-size:13px;
-        margin-bottom:18px;
-    }
+  .art-content h2{
+    font-size:28px;
+  }
 
-    .switch-btn{
-        padding:11px 24px;
-    }
+  .content-card{
+    padding:38px 22px;
+  }
 
-    /* Login content starts BELOW overlay */
-    .login .logo,
-    .signup .logo{
-        margin-bottom:25px;
-    }
+  .content-card h1{
+    font-size:42px;
+  }
 
-    h1{
-        font-size:32px;
-        margin-bottom:9px;
-    }
+  .content-card p{
+    font-size:14px;
+  }
 
-    .subtitle{
-        margin-bottom:22px;
-    }
+  .welcome-orb{
+    width:120px;
+    height:120px;
+    font-size:55px;
+  }
 
-    .input{
-        padding:14px 16px;
-        margin-bottom:13px;
-    }
+  .message-box{
+    padding:22px 18px;
+  }
 
-    .btn{
-        padding:14px;
-    }
+  .message-box p{
+    font-size:16px;
+  }
 
-    .divider{
-        margin:16px 0;
-    }
+  .photos-card{
+    padding:25px 14px;
+  }
 
-    /*
-       Signup animation on mobile:
-       overlay moves down after switching.
-    */
-    .auth-card.show-signup .overlay{
-        transform:translateY(192%);
-    }
+  .photo-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
 
-    .auth-card.show-signup .login{
-        transform:translateY(-100%);
-    }
+  .final-card{
+    padding:50px 22px;
+  }
 
-    .auth-card.show-signup .signup{
-        transform:translateX(-100%);
-    }
+  .final-heart{
+    font-size:80px;
+  }
 }
 
-
-/* SMALL PHONES */
 @media(max-width:380px){
 
-    .auth-card{
-        width:94%;
-        height:720px;
-        min-height:720px;
-    }
+  .login-form{
+    padding:28px 20px;
+  }
 
-    .panel{
-        padding:285px 25px 25px;
-    }
+  .login-form h1{
+    font-size:30px;
+  }
 
-    .overlay{
-        height:245px;
-    }
+  .photo-grid{
+    grid-template-columns:1fr;
+  }
 
-    .overlay-content h2{
-        font-size:25px;
-    }
-
-    .overlay-content p{
-        font-size:12px;
-    }
-
-    h1{
-        font-size:28px;
-    }
-
-    .logo{
-        font-size:14px;
-    }
+  .content-card h1{
+    font-size:36px;
+  }
 }
 </style>
 </head>
 
-
 <body>
 
-<div class="auth-card" id="authCard">
+<div class="app">
 
-    <!-- LOGIN -->
-    <div class="panel login">
+<!-- LOGIN -->
+<section class="page active" id="loginPage">
 
-        <div class="logo">
-            ✦ CODE CANDY
-        </div>
+  <div class="card login-card">
 
-        <h1>
-            Welcome back
-        </h1>
+    <div class="login-form">
 
-        <p class="subtitle">
-            Sign in to continue to your account
+      <div class="logo">✦ A LITTLE SURPRISE</div>
+
+      <h1>Koechi 💜</h1>
+
+      <p class="sub">
+        Enter your name to unlock something special.
+      </p>
+
+      <input
+        id="nameInput"
+        class="field"
+        type="text"
+        placeholder="Your name"
+        autocomplete="off">
+
+      <input
+        id="codeInput"
+        class="field"
+        type="text"
+        placeholder="Enter anything to continue"
+        autocomplete="off">
+
+      <button class="login-btn" onclick="login()">
+        Open Surprise ✨
+      </button>
+
+      <div id="loginMessage" class="login-message"></div>
+
+    </div>
+
+    <div class="login-art">
+
+      <div class="art-content">
+
+        <div class="art-heart">💜</div>
+
+        <h2>For Koechi</h2>
+
+        <p>
+          A little journey made especially
+          for you is waiting inside.
         </p>
 
-        <input
-            class="input"
-            type="email"
-            placeholder="Email address">
-
-        <input
-            class="input"
-            type="password"
-            placeholder="Password">
-
-        <label class="remember">
-            <input type="checkbox">
-            Remember me
-        </label>
-
-        <button class="btn">
-            Sign In
-        </button>
-
-        <div class="divider">
-            OR
-        </div>
-
-        <div class="social">
-            <button>Google</button>
-            <button>Apple</button>
-        </div>
+      </div>
 
     </div>
 
+  </div>
 
-    <!-- SIGNUP -->
-    <div class="panel signup">
+</section>
 
-        <div class="logo">
-            ✦ CODE CANDY
-        </div>
 
-        <h1>
-            Create account
-        </h1>
+<!-- WELCOME -->
+<section class="page" id="welcomePage">
 
-        <p class="subtitle">
-            Join us and create your account
-        </p>
+  <div class="card content-card">
 
-        <input
-            class="input"
-            type="text"
-            placeholder="Full name">
+    <div class="welcome-orb">✨</div>
 
-        <input
-            class="input"
-            type="email"
-            placeholder="Email address">
+    <div class="eyebrow">A little surprise</div>
 
-        <input
-            class="input"
-            type="password"
-            placeholder="Create password">
+    <h1 class="glow">
+      Welcome, Koechi 💜
+    </h1>
 
-        <button class="btn">
-            Create Account
-        </button>
+    <p>
+      You made it in. Now the little journey begins.
+      Take your time, enjoy every moment, and
+      keep going until the final surprise.
+    </p>
 
-        <div class="divider">
-            OR
-        </div>
+    <button class="next-btn" onclick="goTo('messagePage')">
+      Continue →
+    </button>
 
-        <div class="social">
-            <button>Google</button>
-            <button>Apple</button>
-        </div>
+  </div>
+
+</section>
+
+
+<!-- SPECIAL MESSAGE -->
+<section class="page" id="messagePage">
+
+  <div class="card content-card">
+
+    <div class="eyebrow">A message for you</div>
+
+    <h1 class="glow">
+      Dear Koechi 💌
+    </h1>
+
+    <div class="message-box">
+
+      <p>
+        Koechi, sometimes the simplest things can
+        become the most beautiful memories.
+        I made this little place just to give you
+        a moment to smile.
+        <br><br>
+        You are appreciated more than words can
+        easily explain. So whenever you see this,
+        remember that somewhere in this little
+        corner of the internet, there is a memory
+        made especially with you in mind. 💜✨
+      </p>
+
+    </div>
+
+    <div class="nav-buttons">
+
+      <button class="back-btn"
+              onclick="goTo('welcomePage')">
+        ← Back
+      </button>
+
+      <button class="next-btn"
+              onclick="goTo('photosPage')">
+        Our memories →
+      </button>
 
     </div>
 
+  </div>
 
-    <!-- ANIMATED OVERLAY -->
-    <div class="overlay">
+</section>
 
-        <div class="overlay-inner">
 
-            <div class="blob one"></div>
-            <div class="blob two"></div>
-            <div class="blob three"></div>
+<!-- PHOTOS -->
+<section class="page" id="photosPage">
 
-            <div class="overlay-content">
+  <div class="card photos-card">
 
-                <h2 id="overlayTitle">
-                    New here?
-                </h2>
+    <div class="photos-title">
 
-                <p id="overlayText">
-                    Create your account and
-                    discover something amazing.
-                </p>
+      <div class="eyebrow">Little memories</div>
 
-                <button
-                    class="switch-btn"
-                    id="switchBtn">
-                    Create Account
-                </button>
+      <h1 class="glow">
+        Koechi's Moments 📸
+      </h1>
 
-            </div>
-
-        </div>
+      <p>
+        A few moments worth keeping close. 💜
+      </p>
 
     </div>
+
+    <div class="photo-grid">
+
+      <div class="photo">
+        <img
+          src="https://rodgerskosgei68-web.github.io/Faith-love/IMG-20260815-WA0033.jpg"
+          alt="Koechi memory 1">
+      </div>
+
+      <div class="photo">
+        <img
+          src="https://rodgerskosgei68-web.github.io/Faith-love/IMG-20260815-WA0035.jpg"
+          alt="Koechi memory 2">
+      </div>
+
+      <div class="photo">
+        <img
+          src="https://rodgerskosgei68-web.github.io/Faith-love/IMG-20260815-WA0037.jpg"
+          alt="Koechi memory 3">
+      </div>
+
+    </div>
+
+    <div class="nav-buttons" style="margin-top:28px">
+
+      <button class="back-btn"
+              onclick="goTo('messagePage')">
+        ← Back
+      </button>
+
+      <button class="next-btn"
+              onclick="goTo('finalPage')">
+        Final surprise ❤️
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FINAL SURPRISE -->
+<section class="page" id="finalPage">
+
+  <div class="card final-card">
+
+    <span class="sparkle s1">✦</span>
+    <span class="sparkle s2">✧</span>
+    <span class="sparkle s3">✦</span>
+    <span class="sparkle s4">✧</span>
+
+    <div class="final-heart">❤️</div>
+
+    <div class="eyebrow">
+      Just one last thing
+    </div>
+
+    <h1 class="glow">
+      Koechi, you're special. 💜
+    </h1>
+
+    <p>
+      And that's the little secret behind this
+      whole page. Every screen, every glow,
+      every memory was made to create one
+      beautiful moment for you.
+      <br><br>
+      Keep this little memory close. ✨
+    </p>
+
+    <button class="next-btn" onclick="restart()">
+      Experience it again ↻
+    </button>
+
+  </div>
+
+</section>
 
 </div>
 
 
 <script>
 
-const card =
-    document.getElementById("authCard");
+const pages=[
+  "loginPage",
+  "welcomePage",
+  "messagePage",
+  "photosPage",
+  "finalPage"
+];
 
-const switchBtn =
-    document.getElementById("switchBtn");
+function goTo(pageId){
 
-const title =
-    document.getElementById("overlayTitle");
+  pages.forEach(id=>{
 
-const text =
-    document.getElementById("overlayText");
+    const page=document.getElementById(id);
 
-let signup = false;
-
-switchBtn.addEventListener("click",()=>{
-
-    signup = !signup;
-
-    if(signup){
-
-        card.classList.add("show-signup");
-
-        title.textContent =
-            "Already have an account?";
-
-        text.textContent =
-            "Welcome back. Sign in and continue your journey.";
-
-        switchBtn.textContent =
-            "Sign In";
-
+    if(id===pageId){
+      page.classList.add("active");
     }else{
-
-        card.classList.remove("show-signup");
-
-        title.textContent =
-            "New here?";
-
-        text.textContent =
-            "Create your account and discover something amazing.";
-
-        switchBtn.textContent =
-            "Create Account";
-
+      page.classList.remove("active");
     }
 
-});
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function login(){
+
+  const name=
+    document.getElementById("nameInput")
+    .value.trim();
+
+  const code=
+    document.getElementById("codeInput")
+    .value.trim();
+
+  const message=
+    document.getElementById("loginMessage");
+
+  if(!name || !code){
+
+    message.textContent=
+      "Please fill in both fields to continue.";
+
+    return;
+  }
+
+  message.textContent="";
+
+  goTo("welcomePage");
+}
+
+
+function restart(){
+
+  document.getElementById("nameInput").value="";
+  document.getElementById("codeInput").value="";
+  document.getElementById("loginMessage").textContent="";
+
+  goTo("loginPage");
+}
 
 </script>
 
